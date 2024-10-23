@@ -18,28 +18,53 @@
 (require 'semantic)
 (require 'imenu)
 
-;(defun turn-on-storm-mode()
- ; "minor mode switcher"
- ; (unless 'storm-mode
-  ;    (storm-mode t)
-  ;  (storm-mode nil)
- ; )
-;)
+
+;;;###autoload
+(defun st-open-windows (arg)
+   "open windows for storm speculators"
+    (interactive "bbuffer:")
+ ;;;   (let* (of (selected-frame))
+ ;;;         (nf (make-frame-command))
+ ;;;         (font1 (frame-parameter of 'font))
+
+;;;  (save-selected-window (select-frame nf) (set-frame-font font1))
+;;;    (message "open storm windows.")
+ ;;;   )
+)
+
+;;;###autoload
+(defun st-close-windows ( arg)
+  "close windows for storm speculators"
+  (interactive "bbuffer:")
+;;   (interactive "@\n" (let curframe (selected-frame)))
+;;   (delete-frame curframe)
+)
 
 
-;(defvar storm-mode nil
-;  "Dummy variable to suppress compiler warnings."
-;)
 
 
+
+(defgroup storm-tech nil
+  "Storm Technique."
+  :group 'convenience
+  :prefix "st-"
+  )
+
+(defcustom st-version 0.1
+  "storm version will be available."
+  :type 'float
+  :group 'storm-tech)
+
+(defvar storm-mode nil
+  "Dummy variable to suppress compiler warnings.")
 
 ;;;###autoload
 (define-minor-mode storm-mode
   "storm mode"
+  :global t
   :init-value  nil
   :lighter " ST"
-  :keymap '(([C-s-*] . openstormwindows) ([C-s-!] . closestormwindows))
-  :group 'storm-mode-group
+  :group 'storm-tech
   (if storm-mode
       (progn
         (st-setup)
@@ -53,69 +78,53 @@
     (st-abort))
   )
 
-(defun st-handle-pre-command()
+(defun st-handle-pre-command ()
   (message "pre")
-  )
-(defun st-handle-post-command()
+)
+(defun st-handle-post-command ()
   (message "post")
-  )
-(defun st-clear-variables-after-save()
+)
+(defun st-clear-variables-after-save ()
   (message "clear")
-  )
-
-
-(defun storm-mode-hook()
-  (message "I'm in storm-mode")
 )
 
 
-(defun st-setup()
-  (message "I'm in st-setup"))
-(defun st-abort()
-  (message "I'm in st-abort"))
 
 
-;;;###autoload
-(defun openstormwindows()
-"open windows for storm speculators"
-(message "open storm windows.")
-   (let* (of (selected-frame))
-         (nf (make-frame-command))
-         (font1 (frame-parameter nf 'font))
-	 )
+(defun st-setup ()
+  "define keymap"
+  (message "Im in st-setup")
 
-  (save-selected-window (select-frame of) (set-frame-font font1))
+  (define-key storm-mode-map (kbd "C-M-*") #'st-open-windows)
+  (define-key storm-mode-map (kbd "C-M-!") #'st-close-windows)
+  (message "Im out st-setup")
+)
+(defun st-abort ()
+  "undefine keymap"
+  
+  (message "Im in st-abort")
 )
 
-;;;###autoload
-(defun closestormwindows()
-"close windows for storm speculators"
-(message "close storm windows.")
 
-)
-
-(defun apropos (cur buffer)
+(defun storm-apropos (cur buffer)
  "a MR target"
- (message "target:%s" 'cur) 
 )
 (defun storm (context)
   "advanced operator"
-  (message "advanced operator to %s" 'context)
 )
 
 ;;;###autoload
-(defun imenuextforstorm (buffer)
+(defun imenu-extension-for-storm (buffer)
   "interactive ar-aided vr-targeted mr-selection with cursor"
    (interactive "P\nb\nenter a buffer name:")
    (let* (cur (point))
-        (curtext (apropos cur buffer)))
-  (storm curtext)
-  
- 
+         (curtext (apropos cur buffer))
+	 (storm curtext)
+   )
 )
 
 ;;;(defgroup)
 ;;;(defcustom)
-(global-set-key (kbd "C-M-,") 'imenuextforstorm)
+(global-set-key (kbd "C-M-,") 'imenu-extension-for-storm)
 
 (provide 'storm-mode)
